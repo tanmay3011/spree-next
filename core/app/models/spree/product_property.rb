@@ -8,6 +8,7 @@ module Spree
     end
 
     validates :product, :property, presence: true
+    validates :property, uniqueness: { scope: :product }, allow_blank: true
 
     validates_with Spree::Validations::DbMaximumLengthValidator, field: :value
 

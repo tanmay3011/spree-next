@@ -65,6 +65,7 @@ module Spree
     def reset_properties
       product.product_properties.map do |prop|
         prop.dup.tap do |new_prop|
+          new_prop.product = nil
           new_prop.created_at = nil
           new_prop.updated_at = nil
         end
