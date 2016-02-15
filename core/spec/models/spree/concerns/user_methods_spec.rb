@@ -10,6 +10,7 @@ describe Spree::UserMethods do
     it { is_expected.to have_many(:promotion_rule_users).with_foreign_key(:user_id).class_name('Spree::PromotionRuleUser').dependent(:destroy) }
     it { is_expected.to have_many(:role_users).class_name('Spree::RoleUser').with_foreign_key(:user_id).dependent(:destroy) }
     it { is_expected.to have_many(:orders).class_name('Spree::Order').with_foreign_key(:user_id) }
+    it { is_expected.to have_many(:completed_orders).conditions(subject.orders.complete).class_name('Spree::Order').with_foreign_key(:user_id).dependent(:restrict_with_error) }
     it { is_expected.to belong_to(:ship_address).class_name('Spree::Address') }
     it { is_expected.to belong_to(:bill_address).class_name('Spree::Address') }
   end

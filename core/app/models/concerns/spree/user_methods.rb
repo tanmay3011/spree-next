@@ -15,6 +15,10 @@ module Spree
       has_many :promotion_rules, through: :promotion_rule_users, class_name: 'Spree::PromotionRule'
 
       has_many :orders, foreign_key: :user_id, class_name: 'Spree::Order'
+      has_many :completed_orders, -> { complete },
+                                  foreign_key: :user_id,
+                                  class_name: 'Spree::Order',
+                                  dependent: :restrict_with_error
 
       belongs_to :ship_address, class_name: 'Spree::Address'
       belongs_to :bill_address, class_name: 'Spree::Address'
