@@ -70,7 +70,7 @@ module Spree
         private
 
         def last_incomplete_order
-          @last_incomplete_order ||= try_spree_current_user.last_incomplete_spree_order
+          @last_incomplete_order ||= Spree::Order.incomplete.find_by(current_order_params.except(:user_id)) || try_spree_current_user.last_incomplete_spree_order
         end
 
         def current_order_params

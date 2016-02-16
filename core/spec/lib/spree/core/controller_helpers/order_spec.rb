@@ -67,13 +67,33 @@ describe Spree::Core::ControllerHelpers::Order, type: :controller do
   end
 
   describe '#set_current_order' do
+    let(:orders)    { double(ActiveRecord::Relation) }
     let(:incomplete_order) { create(:order, user: user) }
+
     before { allow(controller).to receive_messages(try_spree_current_user: user) }
 
     context 'when current order not equal to users incomplete orders' do
-      before { allow(controller).to receive_messages(current_order: order, last_incomplete_order: incomplete_order, cookies: double(signed: { guest_token: 'guest_token' })) }
+      before { allow(controller).to receive_messages(cookies: double(signed: { guest_token: 'guest_token' })) }
+
+      context 'last incomplete order' do
+        before do
+          allow(Spree::Order).to receive(:incomplete).and_return(orders)
+          allow(orders).to receive(:find_by).and_return(order)
+          allow(orders).to receive(:where).and_return(orders)
+          allow(orders).to receive(:each).and_return(orders)
+        end
+
+        it 'calls Spree::Order#merge! method' do
+          expect(Spree::Order).to receive(:incomplete).and_return(orders)
+          expect(order).to receive(:merge!).with(incomplete_order, user)
+          controller.set_current_order
+        end
+
+      end
 
       it 'calls Spree::Order#merge! method' do
+        expect(Spree::Order).to receive(:incomplete).and_return(orders)
+        expect(orders).to receive(:find_by).and_return(order)
         expect(order).to receive(:merge!).with(incomplete_order, user)
         controller.set_current_order
       end
