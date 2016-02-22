@@ -12,6 +12,10 @@ module Spree
     has_many :zones, through: :zone_members, class_name: 'Spree::Zone'
 
     validates :country, :name, presence: true
+    validate :ensure_country_states_required?
+
+    delegate :states_required?, to: :country, prefix: true, allow_nil: true
+
 
     self.whitelisted_ransackable_attributes = %w(abbr)
 
@@ -36,5 +40,12 @@ module Spree
     def to_s
       name
     end
+
+    private
+      def ensure_country_states_required?
+        unless country_states_required?
+          errors.add(:base, Spree.t(:country_states_required_unchecked))
+        end
+      end
   end
 end

@@ -571,6 +571,7 @@ en:
     could_not_create_stock_movement: There was a problem saving this stock movement. Please try again.
     count_on_hand: Count On Hand
     countries: Countries
+    country_states_required_unchecked: Country cannot have states, states required is unchecked.
     country: Country
     country_based: Country Based
     country_name: Name
@@ -1293,6 +1294,7 @@ en:
       shipped: Shipped
       void: Void
     states_required: States Required
+    states_required_invalid: should be checked, country has associated states.
     status: Status
     stock: Stock
     stock_location: Stock Location
