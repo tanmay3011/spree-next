@@ -11,6 +11,7 @@ module Spree
 
     def create_adjustment(order, adjustable, included = nil)
       amount = compute_amount(adjustable)
+      debugger
       return if amount == 0
       adjustments.new(order: order,
                       adjustable: adjustable,

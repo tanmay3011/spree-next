@@ -12,6 +12,7 @@ module Spree
     end
 
     with_options presence: true do
+      validates :name, uniqueness: { case_sensitive: false, allow_blank: true }
       validates :amount, numericality: { allow_nil: true }
       validates :tax_category
     end
@@ -54,7 +55,7 @@ module Spree
     # to relevant items.
     def self.adjust(order, items)
       rates = match(order.tax_zone)
-      tax_categories = rates.map(&:tax_category)
+      tax_categories = rates.map(&:tax_category).uniq
 
       # using destroy_all to ensure adjustment destroy callback fires.
       Spree::Adjustment.where(adjustable: items).tax.destroy_all
