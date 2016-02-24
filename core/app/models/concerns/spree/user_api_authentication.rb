@@ -13,7 +13,10 @@ module Spree
     private
 
     def generate_spree_api_key
-      SecureRandom.hex(24)
+      loop do
+        random_token = SecureRandom.urlsafe_base64
+        break random_token unless self.class.exists?(spree_api_key: random_token)
+      end
     end
   end
 end

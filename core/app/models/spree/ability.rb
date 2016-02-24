@@ -65,6 +65,8 @@ module Spree
         @rules = rules + ability.send(:rules)
       end
 
+      cannot :generate_api_key, Spree.user_class, id: user.id
+
       # Protect admin role
       cannot [:update, :destroy], Role, name: ['admin']
     end
