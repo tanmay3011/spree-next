@@ -6,9 +6,8 @@ module Spree
     belongs_to :product, touch: true, class_name: 'Spree::Product', inverse_of: :variants
     belongs_to :tax_category, class_name: 'Spree::TaxCategory', optional: true
 
-    delegate_belongs_to :product, :name, :description, :slug, :available_on,
-                        :shipping_category_id, :meta_description, :meta_keywords,
-                        :shipping_category
+    delegate :name, :name=, :description, :slug, :available_on, :shipping_category_id,
+             :meta_description, :meta_keywords, :shipping_category, to: :product
 
     # we need to have this callback before any dependent: :destroy associations
     # https://github.com/rails/rails/issues/3458
@@ -94,6 +93,7 @@ module Spree
     end
 
     def self.having_orders
+      warn "`Spree::Variant#having_orders` is deprecated and will be removed in Spree 3.4"
       joins(:line_items).distinct
     end
 
@@ -107,6 +107,7 @@ module Spree
 
     # returns number of units currently on backorder for this variant.
     def on_backorder
+      warn "`Spree::Variant#on_backorder` is deprecated and will be removed in Spree 3.4"
       inventory_units.with_state('backordered').size
     end
 
